@@ -1,21 +1,19 @@
 import React from 'react';
-// Import Swiper styles (required for core functionality)
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper';
-import './Hero.css'
+import './Hero.css';
 
-
-
-// Your image imports
+// Image imports
 import slide1 from '../Assets/Frontend_Assets/hero_image1.png';
 import slide2 from '../Assets/Frontend_Assets/hero_image2.png';
 import slide3 from '../Assets/Frontend_Assets/hero_image3.png';
 import slide4 from '../Assets/Frontend_Assets/hero_image4.png';
 
+// Hero Component Implementation
 const Hero = () => {
     const slides = [
         {
@@ -49,17 +47,15 @@ const Hero = () => {
     ];
 
     return (
-
-        <section className="relative h-screen w-full overflow-hidden">
-
+        <section className="hero-section">
             <Swiper
                 modules={[Autoplay, EffectFade, Navigation, Pagination]}
                 spaceBetween={0}
                 slidesPerView={1}
                 effect="fade"
-                speed={1000}
+                speed={1200}
                 autoplay={{
-                    delay: 5000,
+                    delay: 6000,
                     disableOnInteraction: false,
                 }}
                 loop={true}
@@ -67,46 +63,27 @@ const Hero = () => {
                 pagination={{
                     clickable: true,
                 }}
-                className="h-full w-full"
+                className="hero-swiper"
             >
                 {slides.map((slide) => (
                     <SwiperSlide key={slide.id}>
-                        <div className="relative h-full w-full">
-                            {/* Slide Image */}
+                        <div className="slide-container">
                             <img
                                 src={slide.image}
                                 alt={slide.title}
-                                className="h-full w-full object-cover object-center"
+                                className="slide-image"
+                                loading="lazy"
                             />
-
-                            {/* Text Overlay */}
-                            <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center">
-                                <div className="container mx-auto px-6 z-10">
-                                    <div className="max-w-lg text-white">
-                                        {/* Title */}
-                                        <h2 className="text-5xl font-bold mb-4 animate-fadeInUp">
-                                            {slide.title}
-                                        </h2>
-
-                                        {/* Subtitle */}
-                                        <p className="text-xl mb-8 animate-fadeInUp delay-100">
-                                            {slide.subtitle}
-                                        </p>
-
-                                        {/* Button */}
-                                        <button className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-opacity-90 transition-all duration-300 animate-fadeInUp delay-200 flex items-center gap-2 group">
-                                            {slide.cta}
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 group-hover:translate-x-1 transition-transform"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                            </svg>
-                                        </button>
-                                    </div>
+                            <div className="slide-overlay">
+                                <div className="slide-content">
+                                    <h2 className="slide-title">{slide.title}</h2>
+                                    <p className="slide-subtitle">{slide.subtitle}</p>
+                                    <button className="slide-button">
+                                        {slide.cta}
+                                        <svg className="button-icon">
+                                            <path d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -117,4 +94,5 @@ const Hero = () => {
     );
 };
 
+// Export the component
 export default Hero;

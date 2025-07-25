@@ -1,59 +1,142 @@
-import React, { useContext } from 'react'
-import './ProductDisplay.css'
-import Product from '../../Pages/Product'
-import star_dull_icon from "../Assets/Frontend_Assets/star_dull_icon.png"
-import star_icon from "../Assets/Frontend_Assets/star_icon.png"
-import { ShopContext } from '../../Context/ShopContext'
+import React, { useContext, useState } from 'react';
+import './ProductDisplay.css';
+import star_dull_icon from "../Assets/Frontend_Assets/star_dull_icon.png";
+import star_icon from "../Assets/Frontend_Assets/star_icon.png";
+import { ShopContext } from '../../Context/ShopContext';
 
 const ProductDisplay = (props) => {
     const { product } = props;
-    const {addToCart} = useContext(ShopContext)
+    const { addToCart } = useContext(ShopContext);
+    const [selectedSize, setSelectedSize] = useState(null);
+    const [mainImage, setMainImage] = useState(product.image);
+    const [quantity, setQuantity] = useState(1);
+
+    const handleSizeSelect = (size) => {
+        setSelectedSize(size);
+    };
+
+    const handleQuantityChange = (change) => {
+        setQuantity(prev => Math.max(1, prev + change));
+    };
+
     return (
-        <div className='productdisplay'>
-            <div className="productdisplay-left">
-                <div className="productdisplay-img-list">
-                    <img src={product.image} alt="" />
-                    <img src={product.image} alt="" />
-                    <img src={product.image} alt="" />
-                    <img src={product.image} alt="" />
+        <div className='product-display'>
+            <div className="product-gallery">
+                <div className="thumbnail-list">
+                    {[product.image, product.image, product.image, product.image].map((img, index) => (
+                        <div 
+                            key={index} 
+                            className={`thumbnail ${mainImage === img ? 'active' : ''}`}
+                            onClick={() => setMainImage(img)}
+                        >
+                            <img src={img} alt={`Thumbnail ${index + 1}`} />
+                        </div>
+                    ))}
                 </div>
-                <div className="productdisplay-img">
-                    <img className='productdisplay-main-img' src={product.image} alt="" />
+                <div className="main-image-container">
+                    <img src={mainImage} alt={product.name} className="main-image" />
+                    <div className="image-badge">NEW</div>
                 </div>
             </div>
-            <div className="productdisplay-right">
-                <h1>{product.name}</h1>
-                <div className="productdisplay-right-stars">
-                    <img src={star_icon} alt="" />
-                    <img src={star_icon} alt="" />
-                    <img src={star_icon} alt="" />
-                    <img src={star_dull_icon} alt="" />
-                    <p>(122)</p>
-                </div>
-                <div className="productdisplay-right-prices">
-                    <div className="productdisplay-right-price-old"> ${product.old_price} </div>
-                        <div className="productdisplay-right-price-new"> ${product.new_price} </div>
-                </div>
-                <div className="productdisplay-right-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet cupiditate, facilis et in ipsum beatae quidem modi iste quae omnis laborum doloribus, repudiandae accusamus quis velit, rem praesentium obcaecati commodi.
-                </div>
-                <div className="productdisplay-right-size">
-                    <h1>Select Size</h1>
-                    <div className="productdisplay-right-sizes">
-                        <div>S</div>
-                        <div>M</div>
-                        <div>L</div>
-                        <div>XL</div>
-                        <div>XXL</div>
+            
+            <div className="product-details">
+                <div className="product-header">
+                    <h1 className="product-title">{product.name}</h1>
+                    <div className="rating-container">
+                        <div className="stars">
+                            {[...Array(4)].map((_, i) => (
+                                <img key={i} src={star_icon} alt="Star" className="star-icon" />
+                            ))}
+                            <img src={star_dull_icon} alt="Star" className="star-icon" />
+                        </div>
+                        <span className="review-count">(122 reviews)</span>
                     </div>
                 </div>
-                <button onClick={()=>{addToCart(product.id)}}>ADD TO Cart</button>
-                <p className='productdisplay-right-category'><span>Category: </span>Women , T-Shirt, Crop Top</p>
-                <p className='productdisplay-right-category'><span>Tags: </span>Modern , Latest</p>
 
+                <div className="price-container">
+                    <span className="current-price">${product.new_price.toLocaleString()}</span>
+                    {product.old_price && (
+                        <span className="original-price">${product.old_price.toLocaleString()}</span>
+                    )}
+                    {product.old_price && (
+                        <span className="discount-percentage">
+                            {Math.round((product.old_price - product.new_price) / product.old_price * 100)}% OFF
+                        </span>
+                    )}
+                </div>
+
+                <p className="product-description">
+                    Elevate your fitness routine with our premium {product.name}. Designed for maximum performance and comfort, 
+                    this product features advanced technology to enhance your workout experience. The perfect blend of 
+                    style and functionality for the modern athlete.
+                </p>
+
+                <div className="size-selector">
+                    <h3 className="section-title">Select Size</h3>
+                    <div className="size-options">
+                        {['S', 'M', 'L', 'XL', 'XXL'].map(size => (
+                            <button
+                                key={size}
+                                className={`size-option ${selectedSize === size ? 'selected' : ''}`}
+                                onClick={() => handleSizeSelect(size)}
+                            >
+                                {size}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="quantity-selector">
+                    <h3 className="section-title">Quantity</h3>
+                    <div className="quantity-controls">
+                        <button 
+                            className="quantity-btn" 
+                            onClick={() => handleQuantityChange(-1)}
+                            disabled={quantity <= 1}
+                        >
+                            −
+                        </button>
+                        <span className="quantity-value">{quantity}</span>
+                        <button 
+                            className="quantity-btn" 
+                            onClick={() => handleQuantityChange(1)}
+                        >
+                            +
+                        </button>
+                    </div>
+                </div>
+
+                <div className="action-buttons">
+                    <button 
+                        className="add-to-cart-btn"
+                        onClick={() => {
+                            if (!selectedSize) {
+                                alert('Please select a size');
+                                return;
+                            }
+                            addToCart(product.id, quantity, selectedSize);
+                        }}
+                    >
+                        ADD TO CART
+                    </button>
+                    <button className="wishlist-btn">
+                        WISHLIST
+                    </button>
+                </div>
+
+                <div className="product-meta">
+                    <div className="meta-item">
+                        <span className="meta-label">Category:</span>
+                        <span className="meta-value">Fitness, Supplements, {product.category}</span>
+                    </div>
+                    <div className="meta-item">
+                        <span className="meta-label">Tags:</span>
+                        <span className="meta-value">Premium, Performance, Quality</span>
+                    </div>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ProductDisplay
+export default ProductDisplay;

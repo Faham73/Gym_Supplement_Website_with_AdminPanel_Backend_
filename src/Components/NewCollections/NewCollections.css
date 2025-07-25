@@ -1,74 +1,161 @@
-.new-collections{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 100px;
+/* NewCollections.css */
+.new-collections-section {
+    background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
 }
-.new-collections h1{
-    columns: #171717;
-    font-size: 50px;
+
+.section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-subtitle {
+    color: #ff6b6b;
+    font-size: 18px;
     font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
 }
-.new-collections hr{
-    width: 200px;
-    height: 6px;
-    border-radius: 10px;
-    background: #252525;
+
+.section-title {
+    color: #1a1a1a;
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0 0 20px;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
 }
-.collections{
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, #ff6b6b, #ff4141);
+}
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 25px 0;
+}
+
+.divider-line {
+    width: 80px;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.divider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #ff4141);
+    margin: 0 15px;
+}
+
+.section-description {
+    color: #666;
+    font-size: 18px;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.collections-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    margin-top: 50px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
 }
-@media(max-width: 1280px) {
-    .new-collections h1 {
-        font-size: 40px;
-    }
 
-    .new-collections hr {
-        width: 160px;
-        height: 4px;
-    }
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
 
-    .collections {
-        margin-top: 30px;
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 107, 107, 0.2);
+    border-radius: 50%;
+    border-top-color: #ff6b6b;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .new-collections-section {
+        padding: 80px 0;
+    }
+    
+    .section-title {
+        font-size: 36px;
+    }
+    
+    .collections-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .new-collections-section {
+        padding: 60px 0;
+    }
+    
+    .section-header {
+        margin-bottom: 40px;
+    }
+    
+    .section-title {
+        font-size: 32px;
+    }
+    
+    .section-description {
+        font-size: 16px;
+    }
+    
+    .collections-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 20px;
     }
 }
-@media(max-width: 1024px) {
-    .new-collections h1 {
-        font-size: 30px;
-    }
 
-    .new-collections hr {
-        width: 120px;
-        height: 3px;
+@media (max-width: 480px) {
+    .new-collections-section {
+        padding: 40px 0;
     }
-
-    .collections {
-        margin-top: 20px;
-        gap: 15px;
+    
+    .section-title {
+        font-size: 28px;
     }
-}
-@media(max-width: 800px) {
-    .new-collections h1 {
-        font-size: 20px;
+    
+    .section-subtitle {
+        font-size: 14px;
     }
-
-    .new-collections hr {
-        width: 100px;
-    }
-
-    .collections {
-        gap: 5px;
-    }
-}
-@media(max-width: 500px) {
-    .collections {
-        display: grid;
+    
+    .collections-grid {
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        gap: 15px;
     }
 }
